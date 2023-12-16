@@ -1,0 +1,32 @@
+
+
+    // Complete the getNode function below.
+
+    /*
+     * For your reference:
+     *
+     * SinglyLinkedListNode {
+     *     int data;
+     *     SinglyLinkedListNode next;
+     * }
+     *
+     */
+    static int getNode(SinglyLinkedListNode head, int positionFromTail) {
+        if(head==null) return 0;
+
+        SinglyLinkedListNode start = head;
+        int count = 0;
+        while(start.next!=null){
+            start=start.next;
+            count++;
+        }
+        int c = count-positionFromTail;
+        start=head;
+        while(c!=0){
+            start=start.next;
+            c--;
+        }
+        return start.data;
+
+    }
+

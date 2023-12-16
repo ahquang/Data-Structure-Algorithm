@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    // Complete the connectedCell function below.
+    static int connectedCell(int[][] matrix) {
+         int row = matrix.length;
+        int col = matrix[0].length;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (matrix[i][j] == 1) {
+                    int length = markAllCellConnected(matrix, i, j);
+                    if (length > max){
+                        max = length;
+                    }
+                }
+            }
+        }
+        return max;
+    }
+
+    static int[] di = new int[]{1, -1, 0, 0, 1, 1, -1, -1};
+    static int[] dj = new int[]{0, 0, 1, -1, 1, -1, 1, -1};
+
+    static int markAllCellConnected(int[][] matrix, int i, int j) {
+        if (i >= matrix.length) return 0;
+        if (i < 0) return 0;
+        if (j >= matrix[0].length) return 0;
+        if (j < 0) return 0;
+        int sum = 1;
+        if (matrix[i][j] == 0) {
+            return 0;
+        } else {
+            matrix[i][j] = 0;
+            for (int k = 0; k < 8; k++) {
+                sum += markAllCellConnected(matrix, i + di[k], j + dj[k]);
+            }
+        }
+        return sum;
+
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int m = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[][] matrix = new int[n][m];
+
+        for (int i = 0; i < n; i++) {
+            String[] matrixRowItems = scanner.nextLine().split(" ");
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int j = 0; j < m; j++) {
+                int matrixItem = Integer.parseInt(matrixRowItems[j]);
+                matrix[i][j] = matrixItem;
+            }
+        }
+
+        int result = connectedCell(matrix);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}

@@ -1,0 +1,66 @@
+import java.util.*;
+/*
+ * Create the Student and Priorities classes here.
+ */
+class Student{
+    private int id;
+    private double CGPA;
+    private String name;
+    
+    public Student(int id, String name, double CGPA){
+        this.id = id;
+        this.name = name;
+        this.CGPA = CGPA;
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
+    public String getName(){
+        return name;
+    }
+    
+    public double getCGPA(){
+        return CGPA;
+    }
+}
+
+class Priorities{
+    public List<Student> getStudents(List<String> events ){
+        PriorityQueue<Student> pq = new PriorityQueue<Student>(new StudentComparator());
+        for(String str: events){
+            String[] splStrings = str.split(" ");
+            if(splStrings[0].compareTo("ENTER")==0){
+                pq.add(new Student(Integer.parseInt( splStrings[3]),splStrings[1], Double.parseDouble( splStrings[2])));
+            }else{
+                if(!pq.isEmpty())
+                    pq.remove();
+            }
+            // for(Student st:pq){
+            //     System.out.print(st.getName() + " ");
+            // }
+            // System.out.println();
+        }      
+        ArrayList<Student> ans =new ArrayList<>();
+        while(!pq.isEmpty()){
+            ans.add(pq.poll());
+        }
+        return ans;  
+    }
+}
+
+class StudentComparator implements Comparator<Student>{
+    
+    @Override
+    public int compare(Student s1, Student s2){
+         if (s1.getCGPA() == s2.getCGPA() && s1.getName().compareTo(s2.getName()) == 0) {
+            return s1.getId() < s2.getId() ? -1 : 1;
+         }
+         else if(s1.getCGPA() == s2.getCGPA())
+            return s1.getName().compareTo(s2.getName());
+        return (Double.compare(s1.getCGPA() , s2.getCGPA())) > 0 ? -1 : 1;
+    }
+}
+
+

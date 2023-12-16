@@ -1,0 +1,31 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int queries = Integer.parseInt(br.readLine());
+        Stack<String> stack=new Stack<String>();
+        stack.push("");
+        while(queries-->0) {
+            String[] part=br.readLine().split(" ");
+            int command=Integer.parseInt(part[0]);
+            if(command==1) {
+                String word=part[1];
+                stack.push(stack.peek()+word);
+            }
+            else if(command==2) {
+                int deleteChar=Integer.parseInt(part[1]);
+                String word=stack.peek();
+                stack.push(word.substring(0, word.length()-deleteChar));
+            }
+            else if(command==3) {
+                int index=Integer.parseInt(part[1]);
+                System.out.println(stack.peek().charAt(index-1));
+            }
+                else
+                    stack.pop();
+            }
+    }
+}
